@@ -11,6 +11,5 @@ def compare_files(f1,f2):
 
 
 
-# Replace 'file1.xlsx' and 'file2.xlsx' with the actual file paths you want to compare
 compare_files("C:\\Users\\admin\\Documents\\Book1.xlsx", "C:\\Users\\admin\\Documents\\Book2.xlsx")
 
