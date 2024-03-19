@@ -1,0 +1,2 @@
+def logGenerator():
+    return None

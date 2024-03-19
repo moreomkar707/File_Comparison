@@ -1,33 +1,48 @@
 import csv
 import pandas as pd
 
+from Utilities.logger import logGenerator
+
+
 
 class FileComparison:
+
+    log = logGenerator.loggen()
+
     file1 = None
     file2 = None
     file_location = "C:\\Users\\admin\\Documents\\file_report.txt"
+
 
     def __init__(self, f1, f2):
         self.file1 = f1
         self.file2 = f2
 
     def matching_column(self):
+        self.log.info("matching column method started...")
 
         try:
             with open(self.file1, 'r') as df1, open(self.file2, 'r') as df2:
                 f1 = pd.read_csv(df1,nrows=1)
                 f2 = pd.read_csv(df2,nrows=1)
                 matching_columns = [col for col in f1 if col in f2]
-                l = [f1,f2,matching_columns]
+                my_list = [f1,f2,matching_columns]
 
-                return l
+                self.log.info("matching column list return by function")
+                return my_list
 
         except FileNotFoundError:
+            self.log.error(f"the error is file not found")
             print("File Not Found.........")
         except Exception as e:
+            self.log.error(f"the error is {e}")
             print(f"Error is {e}")
+        finally:
+            self.log.info("matching column method successfully return list")
+
 
     def detect_delimiter(self):
+        self.log.info("detect_delimiter method started....")
 
         try:
             common_delimiter = [",", "\t", ";"]
@@ -50,10 +65,11 @@ class FileComparison:
                 return delimiter_list
 
         except Exception as e:
+            self.log.error(f"the error is {e}")
             print(f"exception is  : {e}")
 
     def compare_records(self):
-
+        self.log.info("compare_records method started....")
         try:
             with open(self.file1, 'r') as df1, open(self.file2, 'r') as df2:
                 file1 = len(df1.readlines())
@@ -64,10 +80,11 @@ class FileComparison:
 
 
         except Exception as e:
+            self.log.error(f"the error is {e}")
             print(f"Error is : {e}")
 
     def header_trailer_validation(self):
-
+        self.log.info("header_trailer_validation method started....")
         try:
 
             with open(self.file1, 'r') as df1, open(self.file2, 'r') as df2:
@@ -95,10 +112,11 @@ class FileComparison:
                 #     return "Trailer Record Aligned"
 
         except Exception as e:
+            self.log.error(f"the error is {e}")
             print(f"Error Occure : {e}")
 
     def detail_report(self):
-
+        self.log.info("detail_report method Started....")
         try:
             data = {
                 'records_file1' : self.compare_records()[0],
@@ -114,10 +132,11 @@ class FileComparison:
                 writer = csv.DictWriter(csvfile, fieldnames=data.keys())
                 writer.writeheader()
                 writer.writerow(data)
-
+            self.log.info(f"Report Generated Successfully..")
             print("Report generated successfully !!!")
 
         except Exception as e:
+            self.log.error(f"the error is {e}")
             print("error is :",e)
 
 
@@ -128,4 +147,10 @@ f2 = "C:\\Users\\admin\\Documents\\file2.txt"
 # outliers book read
 compare = FileComparison(f1, f2)
 # print(compare.detail_report())
-print( compare.detect_delimiter())
+# print(compare.detect_delimiter())
+
+
+
+
+
+
